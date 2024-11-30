@@ -7,6 +7,7 @@
 
 import pathlib
 
+# Desktop path
 desktop = pathlib.Path() / "Desktop"
 
 for file in desktop.iterdir():

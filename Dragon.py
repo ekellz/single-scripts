@@ -10,6 +10,20 @@
 # If they don't have the sword, then they will be eaten by the dragon and lose the game.
 
 
+# Start loop
+# User input to pick left or right door
+# If left, user input to stay or go back
+# If stay, user input to look around
+# If look around, user input to take sword or leave
+
+import random
+
+opponents = ["an angry ogre", "a hungry troll", "a fierce goblin", "a giant spider", "an evil sorceress", 
+            "a scary ghost", "a hungry vampire", "a fierce werewolf", "a giant snake", "a wicked wizard", "a scary zombie", 
+            "a fierce minotaur", "a giant cyclops", "a wicked warlock", "a scary banshee", "a hungry hydra", 
+            "a fierce basilisk", "a giant griffin", "a wicked wraith", "a fierce sphinx", "a giant kraken", "a scary harpy", 
+            "a hungry wyvern", "a fierce phoenix", "a wicked pegasus", "a scary centaur", "a hungry satyr", "a fierce dryad"]
+
 # Intro
 name = input("Please type in your name ")
 print(f"Welcome to my dragon game, {name}! May the odds ever be in your favor! :) ")
@@ -23,27 +37,75 @@ yes = "yes"
 no = "no"
 
 has_sword = False
+user_choice = set()
+equipment_list = []
 
 while True:
-    door_choice = input("You have a choice. Pick a door: left or right! ")
+    door_choice = input("You are on an adventure! You come across three doors. Would you like to choose the left, middle, or right door? ")
+    user_choice.add(('door_choice', door_choice))
 
     # Left
     if door_choice == left_door:
         stay_or_go_back = input("You have chosen the left door. Would you like to go back or stay? (please type in your response exactly) ")
+        user_choice.add(('stay_or_go_back', stay_or_go_back))
         if stay_or_go_back == stay:
             look_around_option = input("Well, now that you're here, would you like to look around? Type yes or no. ")
+            user_choice.add(('look_around_option', look_around_option))
             if look_around_option == yes:
                 sword_option = input("Welcome to this room! As you look around, you a sword. "
                                      "Would you like to take ownership of it? Please type yes or no. ")
+                user_choice.add(('sword_option', sword_option))
                 if sword_option == yes:
-                    print("Great choice! You now have the sword and are returning to the main area. ")
+                    key_option = input("Great choice! You now have the sword. When you pick up the sword, you notice a key. Would you like to take it? ")  ")
                     has_sword = True
+                    equipment_list.append('sword')
+                    user_choice.add(('key_option', key_option))
+                    if key_option == yes:
+                        equipment_list.append('key')
+                        print("You now have the sword and the key. ")
                 else:
                     print("Welp, sorry to hear that, but off you go to the main area! ")
             else:
                 print("Welp, back you go the main area then! ")
         else:
             print("You chose not to stay, so you are being returned to the main area. ")
+    
+    # Middle
+    elif door_choice == "middle":
+        food_option = input("You chose the middle door. You look around and see a table with various items. Upon further inspection," 
+                "you see a bag of bread and cheeses. Would you like to take it? Please type 'yes' or 'no' for your answer. ")
+        user_choice.add(('food_option', food_option))
+        if food_option == "yes":
+            equipment_list.append('food')
+            print("You now have the food. ")
+        else:
+            print("You chose not to take the food. ")
+
+        # Closet door option
+        closet_option = input("You see a closet door. Would you like to open it? Please type 'yes' or 'no' for your answer. ")
+        user_choice.add(('closet_option', closet_option))
+        if closet_option == "yes":
+            print("You open the closet door and find a chest. You open the chest and find a key. You now have the key. ")
+            equipment_list.append('key')
+        else:
+            print("You chose not to open the closet door. ")   
+
+        # Opponent encounter
+        opponent = random.choice(opponents)
+        print(f"You hear a noise and turn around to see {opponent}! ")
+        fight_option = input("Would you like to fight the opponent? Please type 'yes' or 'no' for your answer. ")
+        user_choice.add(('fight_option', fight_option))
+        if fight_option == "yes":
+            print("You chose to fight the opponent! ")
+            if equipment_list:
+                print("You have the sword to defeat the opponent. Congratulations, you lived to move on your adventure and return to the beginning. ") ")
+    
+            else:
+                print(f"So sorry, but {opponent} was too strong and you lost the game.  ")
+                break
+        else:
+            print("You chose not to fight the opponent. ")
+
     # Right      
     else:
         stay_or_go_back = input("You chose the room on the right and oh my! There is a dangerous dragon here!"
@@ -51,13 +113,15 @@ while True:
         if stay_or_go_back == stay:
             fight_dragon_option = input("You brave soul! You decided to stay. Would you like to fight the dragon? "
                                        "Please type 'yes' or 'no' to indicate your answer. ")
+            user_choice.add(('fight_dragon_option', fight_dragon_option))
             if fight_dragon_option == yes:
                 print("You chose to fight the dragon! ")
                 if has_sword:
                     print("You have the sword to defeat the dragon. Congratulations, you won the game! ")
                     break
                 else:
-                    print("So sorry, but the dragon was too big and dangerous. You lost, game over. ")
+                    print("So sorry, but the dragon was too big and dangerous. You lost your inventory of items. ")
+                    equipment_list.clear()
                     break
             else:
                 print("You chose wisely and did not fight the dragon without any weapons! ")
