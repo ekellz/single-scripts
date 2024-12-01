@@ -1,0 +1,50 @@
+
+# Part 1
+# Put the lists in file
+# Split the columns to create two lists
+# Sort the lists from smallest to largest
+# Loop through the pairs in each list and calculate the difference
+# Put the differences in a new list
+# Add the differences together
+
+from pathlib import Path
+from collections import Counter
+
+# Prepare the lists
+def prepare_lists():
+    list1 = []
+    list2 = []
+    file_path = Path('/Users/ericajansen/Documents/Coding Projects/single-scripts/2024 Advent of Code/01_list.txt')
+    with file_path.open('r') as file:
+        for line in file:
+            columns = line.split()
+            if len(columns) > 1:
+                list1.append(int(columns[0]))
+                list2.append(int(columns[1]))
+    #print(list1, list2)
+    return list1, list2
+
+list1, list2 = prepare_lists()
+
+# Sort the lists
+list1.sort()
+list2.sort()
+
+#print(f"Lowest number in list 1: {list1[:3]}")
+#print(f"Lowest number in list 2: {list2[:3]}")
+
+# Calculate the differences
+differences = [abs(a-b) for a, b in zip(list1, list2)]
+total_differences = sum(differences)
+
+#print(f"The differences are: {differences}")
+#print(f"The total differences are: {total_differences}")
+
+# Part 2
+# Iterate through lists -> compare each number in list 1 and multiply by how many times it occurs in list 2
+# Add the results together
+
+count_list2 = Counter(list2)
+similarity_score = sum(num * count_list2[num] for num in list1)
+
+print(f"The similarity score is: {similarity_score}")
