@@ -56,7 +56,7 @@ while True:
                                      "Would you like to take ownership of it? Please type yes or no. ")
                 user_choice.add(('sword_option', sword_option))
                 if sword_option == yes:
-                    key_option = input("Great choice! You now have the sword. When you pick up the sword, you notice a key. Would you like to take it? ")  ")
+                    key_option = input("Great choice! You now have the sword. When you pick up the sword, you notice a key. Would you like to take it? ")
                     has_sword = True
                     equipment_list.append('sword')
                     user_choice.add(('key_option', key_option))
@@ -98,7 +98,7 @@ while True:
         if fight_option == "yes":
             print("You chose to fight the opponent! ")
             if equipment_list:
-                print("You have the sword to defeat the opponent. Congratulations, you lived to move on your adventure and return to the beginning. ") ")
+                print("You have the sword to defeat the opponent. Congratulations, you lived to move on your adventure and return to the beginning. ")
     
             else:
                 print(f"So sorry, but {opponent} was too strong and you lost the game.  ")
