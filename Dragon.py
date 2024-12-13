@@ -17,6 +17,66 @@
 # If look around, user input to take sword or leave
 
 import random
+import json
+from pathlib import Path
+
+def save_game_state_data():
+    """
+    Save the current game state data to a JSON file.
+
+    The game state data includes user choices and the equipment list.
+    """
+    game_state_data = {
+        'user_choice': list(user_choice),
+        'equipment_list': equipment_list
+    }
+    with open('game_state_data.json', 'w') as file:
+        json.dump(game_state_data, file)
+
+def prep_game_state():
+    """
+    Prepare the game state by loading it from a JSON file if it exists.
+
+    If the file does not exist, initialize an empty game state.
+
+    Returns:
+        tuple: A tuple containing the user choices (set) and the equipment list (list).
+    """
+    if Path('game_state_data.json').exists():
+        with open('game_state_data.json', 'r') as file:
+            game_state_data = json.load(file)
+            user_choice = set(game_state_data['user_choice'])
+            equipment_list = game_state_data['equipment_list']
+    else:
+        user_choice = set()
+        equipment_list = []
+    return user_choice, equipment_list
+
+def prepare_game_state():
+    """
+    Prepare the lists by reading data from a file and splitting it into two lists.
+
+    Returns:
+        tuple: A tuple containing two lists.
+    """
+    list1 = []
+    list2 = []
+    file_path = Path('/Users/ericajansen/Documents/Coding Projects/single-scripts/2024 Advent of Code/01_list.txt')
+    with file_path.open('r') as file:
+        for line in file:
+            columns = line.split()
+            if len(columns) > 1:
+                list1.append(int(columns[0]))
+                list2.append(int(columns[1]))
+    return list1, list2
+
+def end_game_session():
+    """
+    End the game session by saving the current game state to a file.
+    """
+    game_state = prepare_game_state()
+    save_game_state_data(game_state)
+    print("Game state saved.")
 
 opponents = ["an angry ogre", "a hungry troll", "a fierce goblin", "a giant spider", "an evil sorceress", 
             "a scary ghost", "a hungry vampire", "a fierce werewolf", "a giant snake", "a wicked wizard", "a scary zombie", 
@@ -52,7 +112,7 @@ while True:
             look_around_option = input("Well, now that you're here, would you like to look around? Type yes or no. ")
             user_choice.add(('look_around_option', look_around_option))
             if look_around_option == yes:
-                sword_option = input("Welcome to this room! As you look around, you a sword. "
+                sword_option = input("Welcome to this room! As you look around, you see a sword. "
                                      "Would you like to take ownership of it? Please type yes or no. ")
                 user_choice.add(('sword_option', sword_option))
                 if sword_option == yes:
@@ -66,7 +126,7 @@ while True:
                 else:
                     print("Welp, sorry to hear that, but off you go to the main area! ")
             else:
-                print("Welp, back you go the main area then! ")
+                print("Welp, back you go to the main area then! ")
         else:
             print("You chose not to stay, so you are being returned to the main area. ")
     
@@ -128,6 +188,12 @@ while True:
         else:
             print("Okay, you are back at the beginning. ")
 
-    
+# Example of how you might call end_game_session at the end of your game loop
+# (This should be placed where your game loop ends)
+end_game_session()
+
+
+
+
 
 
