@@ -111,7 +111,10 @@ else:
     translation_result = translation_response.json()
     quenya_statement = translation_result.get('contents', {}).get('translated')
 
-    print(f"Welcome to my dragon game, {name}! Your handle is {handle}. {quenya_statement}. Or, as you may know in the common tongue: may the odds ever be in your favor!  :) ")
+    if quenya_statement:
+        print(f"Welcome to my dragon game, {name}! Your handle is {handle}. {quenya_statement}. Or, as you may know in the common tongue: may the odds ever be in your favor!  :) ")
+    else:
+        print(f"Welcome to my dragon game, {name}! Your handle is {handle}. May the odds ever be in your favor! ")
 
 # The choices
 left_door = "left"
