@@ -6,7 +6,11 @@
 # Move the screenshots in there
 
 import pathlib
+import json
+from collections import Counter
+from datetime import datetime
 
+db_path = pathlib.Path('Users/ericajansen/Docume')
 # Desktop path
 desktop = pathlib.Path() / "Desktop"
 

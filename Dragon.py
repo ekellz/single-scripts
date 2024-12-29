@@ -19,7 +19,9 @@
 import random
 import json
 from pathlib import Path
+import requests
 
+# The Game
 def save_game_state_data():
     """
     Save the current game state data to a JSON file.
@@ -84,9 +86,21 @@ opponents = ["an angry ogre", "a hungry troll", "a fierce goblin", "a giant spid
             "a fierce basilisk", "a giant griffin", "a wicked wraith", "a fierce sphinx", "a giant kraken", "a scary harpy", 
             "a hungry wyvern", "a fierce phoenix", "a wicked pegasus", "a scary centaur", "a hungry satyr", "a fierce dryad"]
 
-# Intro
+# Name and Intro
 name = input("Please type in your name ")
-print(f"Welcome to my dragon game, {name}! May the odds ever be in your favor! :) ")
+
+if len(name) < 2 or len(name) > 12:
+    print("Please enter a name of at least 2 characters and not to exceed 12 characters. ")
+    name = input("Please type in your name. ")
+else:
+# Generate a random name
+    name_min_len = 2
+    name_max_len = 12
+    URL = f"https://uzby.com/api.php?min={name_min_len}&max={name_max_len}"
+
+    response = requests.get(URL)
+    handle = response.text
+    print(f"Welcome to my dragon game, {name}! Your handle is {handle}. May the odds ever be in your favor! :) ")
 
 # The choices
 left_door = "left"
@@ -191,9 +205,4 @@ while True:
 # Example of how you might call end_game_session at the end of your game loop
 # (This should be placed where your game loop ends)
 end_game_session()
-
-
-
-
-
-
+print("Game over! Thanks for playing! ")
