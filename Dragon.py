@@ -100,7 +100,18 @@ else:
 
     response = requests.get(URL)
     handle = response.text
-    print(f"Welcome to my dragon game, {name}! Your handle is {handle}. May the odds ever be in your favor! :) ")
+
+    translation_url = f"https://api.funtranslations.com/translate/quenya.json"
+    text_to_translate = f"May the odds ever be in your favor."
+    data = {
+        'text': text_to_translate
+    }
+
+    translation_response = requests.post(translation_url, data=data)
+    translation_result = translation_response.json()
+    quenya_statement = translation_result.get('contents', {}).get('translated')
+
+    print(f"Welcome to my dragon game, {name}! Your handle is {handle}. {quenya_statement}. Or, as you may know in the common tongue: may the odds ever be in your favor!  :) ")
 
 # The choices
 left_door = "left"
